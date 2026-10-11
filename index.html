@@ -1,1 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#07111f">
+<meta name="description" content="Cyber Shield India — a free cyber safety and scam awareness tool.">
+<title>Cyber Shield India | Cyber Safety</title>
 
+<style>
+:root {
+  --bg: #07111f;
+  --panel: #101e30;
+  --border: #25374d;
+  --text: #eef5ff;
+  --muted: #9aacc4;
+  --cyan: #45e0e9;
+  --green: #4ee6a8;
+  --red: #ff647c;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, Arial, sans-serif;
+}
+header {
+  padding: 20px 16px;
+  border-bottom: 1px solid var(--border);
+  background: #091626;
+}
+.brand {
+  max-width: 950px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo {
+  width: 45px;
+  height: 45px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--cyan);
+  border-radius: 14px;
+  font-size: 25px;
+}
+h1 { font-size: 19px; margin: 0; }
+.brand p { margin: 4px 0 0; color: var(--muted); font-size: 12px; }
+main { max-width: 950px; margin: auto; padding: 20px 14px 45px; }
+.hero {
+  padding: 25px 20px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: linear-gradient(135deg,#10263a,#101629);
+}
+.badge {
+  display: inline-block;
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+}
+.hero h2 { font-size: clamp(27px,6vw,40px); margin: 0 0 12px; }
+.hero h2 span { color: var(--cyan); }
+p { line-height: 1.6; }
+.muted { color: var(--muted); }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
+  gap: 15px;
+  margin-top: 18px;
+}
+.card {
+  padding: 19px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+.card h3 { margin: 0 0 8px; font-size: 17px; }
+.icon { font-size: 25px; margin-bottom: 10px; }
+textarea, input {
+  width: 100%;
+  background: #071321;
+  color: white;
+  border: 1px solid #344960;
+  border-radius: 10px;
+  padding: 13px;
+  margin: 8px 0 12px;
+  font: inherit;
+}
+textarea { min-height: 125px; resize: vertical; }
+button, .button {
+  display: inline-block;
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 15px;
+  background: var(--cyan);
+  color: #06121d;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: none;
+}
+button.secondary {
+  background: #263a50;
+  color: white;
+}
+.result {
+  margin-top: 15px;
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #081523;
+  overflow-wrap: anywhere;
+}
+.hidden { display: none; }
+.score { font-size: 28px; font-weight: 900; margin: 5px 0; }
+.warning { color: var(--red); }
+.safe { color: var(--green); }
+.stat { font-size: 25px; font-weight: 900; color: var(--cyan); }
+ul { padding-left: 20px; line-height: 1.8; }
+a { color: var(--cyan); }
+footer {
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding: 24px 15px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.small { font-size: 12px; }
+</style>
+</head>
+
+<body>
+<header>
+  <div class="brand">
+    <div class="logo">🛡️</div>
+    <div>
+      <h1>CYBER SHIELD INDIA</h1>
+      <p>Cyber Safety & Awareness Platform</p>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <span class="badge">PUBLIC CYBER SAFETY PROJECT</span>
+    <h2>Think Before You <span>Click.</span></h2>
+    <p class="muted">
+      Check suspicious messages, understand common scam warning signs
+      and learn how to protect yourself online.
+    </p>
+    <button onclick="document.getElementById('analyzer').scrollIntoView({behavior:'smooth'})">
+      Check a Message ↓
+    </button>
+  </section>
+
+  <section class="grid">
+    <div class="card">
+      <div class="icon">🔍</div>
+      <h3>Messages Checked</h3>
+      <div class="stat" id="total">0</div>
+      <p class="muted small">Checks performed in this session.</p>
+    </div>
+    <div class="card">
+      <div class="icon">⚠️</div>
+      <h3>Warning Flags</h3>
+      <div class="stat" id="flagged">0</div>
+      <p class="muted small">Checks that triggered warning rules.</p>
+    </div>
+  </section>
+
+  <section class="card" id="analyzer" style="margin-top:18px">
+    <div class="icon">🧬</div>
+    <h3>Cyber Risk Fingerprint</h3>
+    <p class="muted">
+      Paste a suspicious message. The tool checks for common scam
+      indicators using local rules. Your text is not uploaded by this tool.
+    </p>
+    <label for="message">Message to check</label>
+    <textarea id="message" maxlength="10000"
+      placeholder="Example: Your bank account will be blocked. Click this link and share your OTP..."></textarea>
+    <button onclick="analyzeMessage()">Analyze Message</button>
+    <button class="secondary" onclick="clearMessage()">Clear</button>
+    <div id="analysisResult" class="result hidden" aria-live="polite"></div>
+  </section>
+
+  <section class="grid">
+    <div class="card">
+      <div class="icon">🔗</div>
+      <h3>Link Structure Checker</h3>
+      <p class="muted">
+        Examine a URL for suspicious structural features. Do not open
+        unknown links just to test them.
+      </p>
+      <label for="linkInput">Website address</label>
+      <input id="linkInput" type="text" maxlength="2000"
+        placeholder="https://example.com">
+      <button onclick="checkLink()">Check Link</button>
+      <div id="linkResult" class="result hidden" aria-live="polite"></div>
+    </div>
+
+    <div class="card">
+      <div class="icon">🇮🇳</div>
+      <h3>Indian Cyber Help</h3>
+      <p>Suspect financial cyber fraud?</p>
+      <ul>
+        <li>Call <strong>1930</strong> promptly for financial cyber fraud.</li>
+        <li>Use the official <a href="https://cybercrime.gov.in/"
+          target="_blank" rel="noopener noreferrer">National Cyber Crime Reporting Portal</a>.</li>
+        <li>Contact your bank through its official app or verified number.</li>
+        <li>Never share an OTP, PIN or password.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card" style="margin-top:18px">
+    <div class="icon">🧠</div>
+    <h3>Stay Safe Online</h3>
+    <ul>
+      <li>Never pay a fee just because a stranger promises a job or reward.</li>
+      <li>Verify government schemes through official government websites.</li>
+      <li>Do not install unknown APK files sent by strangers.</li>
+      <li>Never install a screen-sharing app at the request of an unknown caller.</li>
+      <li>Use unique passwords and enable two-factor authentication.</li>
+    </ul>
+  </section>
+
+  <p class="muted small" style="margin-top:20px">
+    Important: This is a rule-based educational prototype, not an AI system
+    or a professional security scanner. Its results may be wrong.
+    A low score does not mean a message or website is safe.
+  </p>
+</main>
+
+<footer>
+  <strong>CYBER SHIELD INDIA</strong><br><br>
+  A public-interest cyber safety project.<br>
+  Built to promote safer digital habits in India 🇮🇳
+</footer>
+
+<script>
+let totalChecks = 0;
+let warningChecks = 0;
+
+const rules = [
+  {
+    name: "Urgency or threats",
+    points: 2,
+    pattern: /\b(account.{0,25}(block|suspend|freeze)|urgent|immediately|within \d+ hours|final warning|will be blocked)\b/i
+  },
+  {
+    name: "OTP, PIN or password request",
+    points: 4,
+    pattern: /\b(share|send|tell|provide|verify|enter).{0,35}\b(otp|pin|password|passcode)\b|\b(otp|pin|password).{0,35}\b(share|send|tell|provide)\b/i
+  },
+  {
+    name: "Suspicious payment request",
+    points: 3,
+    pattern: /\b(pay (a |the )?(fee|tax|deposit)|processing fee|registration fee|send money|transfer money|pay first)\b/i
+  },
+  {
+    name: "Prize or guaranteed reward",
+    points: 2,
+    pattern: /\b(you have won|claim your prize|guaranteed income|free reward|lottery winner|cash prize)\b/i
+  },
+  {
+    name: "Suspicious remote access request",
+    points: 4,
+    pattern: /\b(install|download).{0,40}\b(anydesk|teamviewer|remote access|screen sharing|unknown apk)\b/i
+  },
+  {
+    name: "Suspicious link or login request",
+    points: 2,
+    pattern: /\b(click here|verify your account|update kyc|kyc expires|login immediately)\b/i
+  }
+];
+
+function analyzeMessage() {
+  const text = document.getElementById("message").value.trim();
+  const box = document.getElementById("analysisResult");
+
+  if (!text) {
+    box.classList.remove("hidden");
+    box.textContent = "Please paste a message first.";
+    return;
+  }
+
+  const matches = rules.filter(rule => rule.pattern.test(text));
+  const points = matches.reduce((sum, rule) => sum + rule.points, 0);
+  const score = Math.min(points * 10, 100);
+
+  totalChecks++;
+  if (matches.length > 0) warningChecks++;
+
+  document.getElementById("total").textContent = totalChecks;
+  document.getElementById("flagged").textContent = warningChecks;
+
+  let level = "No common warning pattern detected";
+  let color = "safe";
+
+  if (score >= 60) {
+    level = "High warning level";
+    color = "warning";
+  } else if (score >= 20) {
+    level = "Medium warning level";
+    color = "warning";
+  }
+
+  let details = matches.length
+    ? "<ul>" + matches.map(m => "<li>" + m.name + "</li>").join("") + "</ul>"
+    : "<p>No patterns from this tool's limited rule list were detected.</p>";
+
+  box.innerHTML =
+    '<div class="' + color + '"><strong>' + level + '</strong></div>' +
+    '<div class="score">' + score + '/100</div>' +
+    '<p>Rule-based warning score — not a probability that this message is a scam.</p>' +
+    '<strong>Detected indicators</strong>' + details +
+    '<p><strong>Recommended action:</strong> Do not share OTPs, PINs, passwords or money. Verify the sender independently using an official contact method.</p>' +
+    '<p class="small muted">This analysis runs in your browser. The message is not sent to a server by this page.</p>';
+
+  box.classList.remove("hidden");
+}
+
+function clearMessage() {
+  document.getElementById("message").value = "";
+  const box = document.getElementById("analysisResult");
+  box.classList.add("hidden");
+  box.textContent = "";
+}
+
+function checkLink() {
+  const raw = document.getElementById("linkInput").value.trim();
+  const box = document.getElementById("linkResult");
+  box.classList.remove("hidden");
+
+  if (!raw) {
+    box.textContent = "Please enter a website address.";
+    return;
+  }
+
+  let url;
+  try {
+    url = new URL(raw);
+  } catch {
+    box.textContent = "Invalid URL format. Include a full address such as https://example.com";
+    return;
+  }
+
+  if (!["http:", "https:"].includes(url.protocol)) {
+    box.textContent = "Only HTTP and HTTPS website addresses are supported.";
+    return;
+  }
+
+  const issues = [];
+
+  if (url.protocol !== "https:") {
+    issues.push("The address does not use HTTPS encryption.");
+  }
+
+  if (url.username || url.password) {
+    issues.push("The address contains embedded username or password information.");
+  }
+
+  if (url.hostname.includes("xn--")) {
+    issues.push("The hostname uses internationalized encoding, which can sometimes disguise lookalike domains.");
+  }
+
+  if (/^\d{1,3}(\.\d{1,3}){3}$/.test(url.hostname)) {
+    issues.push("The address uses an IP address instead of a typical domain name.");
+  }
+
+  if (url.hostname.length > 60) {
+    issues.push("The hostname is unusually long.");
+  }
+
+  const label = issues.length
+    ? '<strong class="warning">Caution: structural warning(s) found</strong>'
+    : '<strong>Limited structural check completed</strong>';
+
+  box.innerHTML = label +
+    (issues.length
+      ? "<ul>" + issues.map(x => "<li>" + x + "</li>").join("") + "</ul>"
+      : "<p>No listed structural warning was detected. This does not establish that the site is safe.</p>") +
+    "<p><strong>Domain:</strong> " + escapeHTML(url.hostname) + "</p>" +
+    "<p class='small muted'>This check does not contact the website or query a live threat database. HTTPS alone does not prove trustworthiness.</p>";
+}
+
+function escapeHTML(value) {
+  return value.replace(/[&<>"']/g, ch => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[ch]);
+}
+</script>
+</body>
+        </html>
