@@ -1,402 +1,564 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#07111f">
-<meta name="description" content="Cyber Shield India — a free cyber safety and scam awareness tool.">
-<title>Cyber Shield India | Cyber Safety</title>
+<title>Cyber Shield India 2.0</title>
 
 <style>
 :root {
-  --bg: #07111f;
-  --panel: #101e30;
-  --border: #25374d;
-  --text: #eef5ff;
-  --muted: #9aacc4;
-  --cyan: #45e0e9;
-  --green: #4ee6a8;
-  --red: #ff647c;
+  --bg:#07111f;
+  --panel:#101e30;
+  --line:#293d54;
+  --text:#f0f6ff;
+  --muted:#9aadc4;
+  --cyan:#46e2ed;
+  --green:#51e6a8;
+  --red:#ff647c;
+  --yellow:#ffd166;
 }
-* { box-sizing: border-box; }
+* {box-sizing:border-box}
 body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: system-ui, Arial, sans-serif;
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:system-ui,Arial,sans-serif;
 }
 header {
-  padding: 20px 16px;
-  border-bottom: 1px solid var(--border);
-  background: #091626;
+  padding:18px;
+  border-bottom:1px solid var(--line);
+  background:#091625;
+  position:sticky;
+  top:0;
+  z-index:5;
 }
-.brand {
-  max-width: 950px;
-  margin: auto;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.nav {
+  max-width:1050px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
 }
+.brand {display:flex;align-items:center;gap:10px}
 .logo {
-  width: 45px;
-  height: 45px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--cyan);
-  border-radius: 14px;
-  font-size: 25px;
+  width:44px;height:44px;
+  display:grid;place-items:center;
+  border:1px solid var(--cyan);
+  border-radius:13px;font-size:25px;
 }
-h1 { font-size: 19px; margin: 0; }
-.brand p { margin: 4px 0 0; color: var(--muted); font-size: 12px; }
-main { max-width: 950px; margin: auto; padding: 20px 14px 45px; }
+h1 {font-size:16px;margin:0}
+.brand small {color:var(--muted)}
+select,input,textarea {
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:#081523;
+  color:var(--text);
+  font:inherit;
+}
+.nav select {width:auto;max-width:115px}
+main {max-width:1050px;margin:auto;padding:20px 14px 40px}
 .hero {
-  padding: 25px 20px;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  background: linear-gradient(135deg,#10263a,#101629);
+  padding:25px 20px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:linear-gradient(135deg,#102b40,#11172b);
 }
-.badge {
-  display: inline-block;
-  color: var(--green);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  margin-bottom: 10px;
+.eyebrow {
+  color:var(--green);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:2px;
 }
-.hero h2 { font-size: clamp(27px,6vw,40px); margin: 0 0 12px; }
-.hero h2 span { color: var(--cyan); }
-p { line-height: 1.6; }
-.muted { color: var(--muted); }
+.hero h2 {font-size:clamp(29px,7vw,43px);margin:12px 0}
+.hero h2 span {color:var(--cyan)}
+p {line-height:1.6}
+.muted {color:var(--muted)}
+.small {font-size:12px}
 .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
-  gap: 15px;
-  margin-top: 18px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;margin-top:16px;
 }
 .card {
-  padding: 19px;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 16px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px;
+  margin-top:16px;
+  min-width:0;
 }
-.card h3 { margin: 0 0 8px; font-size: 17px; }
-.icon { font-size: 25px; margin-bottom: 10px; }
-textarea, input {
-  width: 100%;
-  background: #071321;
-  color: white;
-  border: 1px solid #344960;
-  border-radius: 10px;
-  padding: 13px;
-  margin: 8px 0 12px;
-  font: inherit;
+.card h3 {margin:4px 0 10px}
+.icon {font-size:25px}
+.stat {font-size:29px;color:var(--cyan);font-weight:900}
+button,.btn {
+  display:inline-block;
+  padding:12px 15px;
+  background:var(--cyan);
+  color:#06121c;
+  border:0;border-radius:10px;
+  font-weight:800;
+  cursor:pointer;text-decoration:none;
+  margin:5px 4px 5px 0;
 }
-textarea { min-height: 125px; resize: vertical; }
-button, .button {
-  display: inline-block;
-  border: 0;
-  border-radius: 10px;
-  padding: 12px 15px;
-  background: var(--cyan);
-  color: #06121d;
-  font-weight: 800;
-  cursor: pointer;
-  text-decoration: none;
-}
-button.secondary {
-  background: #263a50;
-  color: white;
-}
+button.secondary {background:#2b4057;color:white}
+textarea {min-height:150px;resize:vertical;margin:8px 0 12px}
+input {margin:8px 0 12px}
 .result {
-  margin-top: 15px;
-  padding: 15px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: #081523;
-  overflow-wrap: anywhere;
+  padding:15px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:#081523;
+  margin-top:14px;
+  overflow-wrap:anywhere;
 }
-.hidden { display: none; }
-.score { font-size: 28px; font-weight: 900; margin: 5px 0; }
-.warning { color: var(--red); }
-.safe { color: var(--green); }
-.stat { font-size: 25px; font-weight: 900; color: var(--cyan); }
-ul { padding-left: 20px; line-height: 1.8; }
-a { color: var(--cyan); }
+.hidden {display:none}
+.score {font-size:38px;font-weight:900;margin:8px 0}
+.red {color:var(--red)}
+.green {color:var(--green)}
+.yellow {color:var(--yellow)}
+ul {padding-left:20px;line-height:1.8}
 footer {
-  border-top: 1px solid var(--border);
-  text-align: center;
-  padding: 24px 15px;
-  color: var(--muted);
-  font-size: 12px;
+  border-top:1px solid var(--line);
+  text-align:center;
+  padding:25px 15px;
+  color:var(--muted);
 }
-.small { font-size: 12px; }
+a {color:var(--cyan)}
+.pill {
+  display:inline-block;
+  border:1px solid var(--line);
+  padding:5px 9px;border-radius:20px;
+  color:var(--muted);font-size:12px;
+}
+hr {border:0;border-top:1px solid var(--line);margin:16px 0}
 </style>
 </head>
 
 <body>
 <header>
-  <div class="brand">
-    <div class="logo">🛡️</div>
-    <div>
-      <h1>CYBER SHIELD INDIA</h1>
-      <p>Cyber Safety & Awareness Platform</p>
+  <div class="nav">
+    <div class="brand">
+      <div class="logo">🛡️</div>
+      <div>
+        <h1>CYBER SHIELD INDIA</h1>
+        <small>Cyber Safety Platform 2.0</small>
+      </div>
     </div>
+
+    <select id="language" aria-label="Choose language">
+      <option value="en">English</option>
+      <option value="bn">বাংলা</option>
+      <option value="hi">हिन्दी</option>
+    </select>
   </div>
 </header>
 
 <main>
   <section class="hero">
-    <span class="badge">PUBLIC CYBER SAFETY PROJECT</span>
-    <h2>Think Before You <span>Click.</span></h2>
-    <p class="muted">
-      Check suspicious messages, understand common scam warning signs
+    <span class="eyebrow">PUBLIC CYBER SAFETY PROJECT</span>
+    <h2 id="heroTitle">Think Before You <span>Click.</span></h2>
+    <p class="muted" id="heroText">
+      Check suspicious messages, identify common warning signs
       and learn how to protect yourself online.
     </p>
-    <button onclick="document.getElementById('analyzer').scrollIntoView({behavior:'smooth'})">
-      Check a Message ↓
-    </button>
+    <button onclick="document.getElementById('analyzer').scrollIntoView({behavior:'smooth'})"
+      id="startBtn">Start Security Check ↓</button>
+    <span class="pill">Free • Browser-based • Privacy-first</span>
   </section>
 
   <section class="grid">
     <div class="card">
       <div class="icon">🔍</div>
-      <h3>Messages Checked</h3>
+      <p class="muted" id="checksLabel">Messages checked this session</p>
       <div class="stat" id="total">0</div>
-      <p class="muted small">Checks performed in this session.</p>
     </div>
     <div class="card">
       <div class="icon">⚠️</div>
-      <h3>Warning Flags</h3>
+      <p class="muted" id="flagsLabel">Checks with warning indicators</p>
       <div class="stat" id="flagged">0</div>
-      <p class="muted small">Checks that triggered warning rules.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🌐</div>
+      <p class="muted" id="linksLabel">Links checked this session</p>
+      <div class="stat" id="linksTotal">0</div>
     </div>
   </section>
 
-  <section class="card" id="analyzer" style="margin-top:18px">
+  <section class="card" id="analyzer">
     <div class="icon">🧬</div>
-    <h3>Cyber Risk Fingerprint</h3>
-    <p class="muted">
-      Paste a suspicious message. The tool checks for common scam
-      indicators using local rules. Your text is not uploaded by this tool.
+    <h3 id="analyzerTitle">Cyber Risk Fingerprint</h3>
+    <p class="muted" id="analyzerText">
+      Paste a suspicious message. The tool checks common warning
+      patterns in English, Bengali and Hindi.
     </p>
-    <label for="message">Message to check</label>
+
+    <label for="message" id="messageLabel">Message to analyze</label>
     <textarea id="message" maxlength="10000"
-      placeholder="Example: Your bank account will be blocked. Click this link and share your OTP..."></textarea>
-    <button onclick="analyzeMessage()">Analyze Message</button>
-    <button class="secondary" onclick="clearMessage()">Clear</button>
+      placeholder="Paste a suspicious SMS, WhatsApp message or job offer..."></textarea>
+
+    <button onclick="analyze()" id="analyzeBtn">Analyze Message</button>
+    <button class="secondary" onclick="clearAnalysis()" id="clearBtn">Clear</button>
+
     <div id="analysisResult" class="result hidden" aria-live="polite"></div>
   </section>
 
   <section class="grid">
     <div class="card">
       <div class="icon">🔗</div>
-      <h3>Link Structure Checker</h3>
-      <p class="muted">
-        Examine a URL for suspicious structural features. Do not open
-        unknown links just to test them.
+      <h3 id="linkTitle">Link Structure Checker</h3>
+      <p class="muted" id="linkText">
+        Check basic URL structure without opening the link.
       </p>
-      <label for="linkInput">Website address</label>
-      <input id="linkInput" type="text" maxlength="2000"
+      <label for="urlInput" id="urlLabel">Website address</label>
+      <input id="urlInput" type="text" maxlength="2000"
         placeholder="https://example.com">
-      <button onclick="checkLink()">Check Link</button>
+      <button onclick="checkLink()" id="checkLinkBtn">Check Link</button>
       <div id="linkResult" class="result hidden" aria-live="polite"></div>
     </div>
 
     <div class="card">
       <div class="icon">🇮🇳</div>
-      <h3>Indian Cyber Help</h3>
-      <p>Suspect financial cyber fraud?</p>
-      <ul>
-        <li>Call <strong>1930</strong> promptly for financial cyber fraud.</li>
-        <li>Use the official <a href="https://cybercrime.gov.in/"
-          target="_blank" rel="noopener noreferrer">National Cyber Crime Reporting Portal</a>.</li>
-        <li>Contact your bank through its official app or verified number.</li>
-        <li>Never share an OTP, PIN or password.</li>
+      <h3 id="helpTitle">Indian Cyber Emergency Help</h3>
+      <p id="helpText">If you suspect financial cyber fraud:</p>
+      <ul id="helpList">
+        <li>Call 1930 promptly for financial cyber fraud.</li>
+        <li>Report through the official National Cyber Crime Reporting Portal.</li>
+        <li>Contact your bank using its official app or verified number.</li>
+        <li>Never share OTPs, PINs or passwords.</li>
       </ul>
+      <a class="btn" href="https://cybercrime.gov.in/"
+        target="_blank" rel="noopener noreferrer" id="portalBtn">
+        Official Cybercrime Portal ↗
+      </a>
     </div>
   </section>
 
-  <section class="card" style="margin-top:18px">
+  <section class="card">
     <div class="icon">🧠</div>
-    <h3>Stay Safe Online</h3>
-    <ul>
-      <li>Never pay a fee just because a stranger promises a job or reward.</li>
-      <li>Verify government schemes through official government websites.</li>
+    <h3 id="tipsTitle">Cyber Safety Tips</h3>
+    <ul id="tipsList">
+      <li>Never share an OTP, PIN or password with a caller.</li>
+      <li>Verify job offers through the employer's official website.</li>
       <li>Do not install unknown APK files sent by strangers.</li>
-      <li>Never install a screen-sharing app at the request of an unknown caller.</li>
+      <li>Never transfer money to receive a promised prize.</li>
       <li>Use unique passwords and enable two-factor authentication.</li>
     </ul>
   </section>
 
-  <p class="muted small" style="margin-top:20px">
-    Important: This is a rule-based educational prototype, not an AI system
-    or a professional security scanner. Its results may be wrong.
-    A low score does not mean a message or website is safe.
-  </p>
+  <section class="card">
+    <h3 id="aboutTitle">About this project</h3>
+    <p class="muted" id="aboutText">
+      This is a free, rule-based cyber awareness prototype.
+      It does not connect to a live threat database and is not
+      a professional security scanner. Results may be wrong.
+      A low score does not mean a message or link is safe.
+    </p>
+  </section>
 </main>
 
 <footer>
-  <strong>CYBER SHIELD INDIA</strong><br><br>
-  A public-interest cyber safety project.<br>
-  Built to promote safer digital habits in India 🇮🇳
+  <strong>🛡️ CYBER SHIELD INDIA 2.0</strong>
+  <p id="footerText">Building safer digital habits for India 🇮🇳</p>
+  <span class="small">Independent public-interest project • Not an official government or military service</span>
 </footer>
 
 <script>
-let totalChecks = 0;
-let warningChecks = 0;
+const translations = {
+  en: {
+    heroTitle:'Think Before You <span>Click.</span>',
+    heroText:'Check suspicious messages, identify common warning signs and learn how to protect yourself online.',
+    startBtn:'Start Security Check ↓',
+    checksLabel:'Messages checked this session',
+    flagsLabel:'Checks with warning indicators',
+    linksLabel:'Links checked this session',
+    analyzerTitle:'Cyber Risk Fingerprint',
+    analyzerText:'Paste a suspicious message. The tool checks common warning patterns in English, Bengali and Hindi.',
+    messageLabel:'Message to analyze',
+    placeholder:'Paste a suspicious SMS, WhatsApp message or job offer...',
+    analyzeBtn:'Analyze Message', clearBtn:'Clear',
+    linkTitle:'Link Structure Checker',
+    linkText:'Check basic URL structure without opening the link.',
+    urlLabel:'Website address', checkLinkBtn:'Check Link',
+    helpTitle:'Indian Cyber Emergency Help',
+    helpText:'If you suspect financial cyber fraud:',
+    helpList:[
+      'Call 1930 promptly for financial cyber fraud.',
+      'Report through the official National Cyber Crime Reporting Portal.',
+      'Contact your bank using its official app or verified number.',
+      'Never share OTPs, PINs or passwords.'
+    ],
+    portalBtn:'Official Cybercrime Portal ↗',
+    tipsTitle:'Cyber Safety Tips',
+    tipsList:[
+      'Never share an OTP, PIN or password with a caller.',
+      "Verify job offers through the employer's official website.",
+      'Do not install unknown APK files sent by strangers.',
+      'Never transfer money to receive a promised prize.',
+      'Use unique passwords and enable two-factor authentication.'
+    ],
+    aboutTitle:'About this project',
+    aboutText:'This is a free, rule-based cyber awareness prototype. It does not connect to a live threat database and is not a professional security scanner. Results may be wrong. A low score does not mean a message or link is safe.',
+    footerText:'Building safer digital habits for India 🇮🇳'
+  },
+  bn: {
+    heroTitle:'ক্লিক করার আগে <span>সতর্ক হন।</span>',
+    heroText:'সন্দেহজনক মেসেজ পরীক্ষা করুন, প্রতারণার লক্ষণ বুঝুন এবং অনলাইনে নিরাপদ থাকুন।',
+    startBtn:'নিরাপত্তা পরীক্ষা শুরু ↓',
+    checksLabel:'এই সেশনে পরীক্ষা করা মেসেজ',
+    flagsLabel:'সতর্কতার লক্ষণ পাওয়া গেছে',
+    linksLabel:'এই সেশনে পরীক্ষা করা লিঙ্ক',
+    analyzerTitle:'সাইবার ঝুঁকি বিশ্লেষণ',
+    analyzerText:'সন্দেহজনক মেসেজ পেস্ট করুন। টুলটি বাংলা, হিন্দি ও ইংরেজির সাধারণ প্রতারণার লক্ষণ খুঁজবে।',
+    messageLabel:'যে মেসেজ পরীক্ষা করবেন',
+    placeholder:'সন্দেহজনক SMS, WhatsApp মেসেজ বা চাকরির বিজ্ঞাপন পেস্ট করুন...',
+    analyzeBtn:'মেসেজ পরীক্ষা করুন', clearBtn:'মুছে ফেলুন',
+    linkTitle:'লিঙ্কের গঠন পরীক্ষা',
+    linkText:'লিঙ্ক না খুলেই তার গঠনের কিছু বৈশিষ্ট্য পরীক্ষা করুন।',
+    urlLabel:'ওয়েবসাইটের ঠিকানা', checkLinkBtn:'লিঙ্ক পরীক্ষা করুন',
+    helpTitle:'ভারতের সাইবার জরুরি সাহায্য',
+    helpText:'আর্থিক সাইবার প্রতারণার সন্দেহ হলে:',
+    helpList:[
+      'আর্থিক সাইবার প্রতারণার ক্ষেত্রে দ্রুত ১৯৩০ নম্বরে যোগাযোগ করুন।',
+      'সরকারি National Cyber Crime Reporting Portal-এ অভিযোগ জানান।',
+      'ব্যাঙ্কের সরকারি অ্যাপ বা যাচাই করা নম্বরে যোগাযোগ করুন।',
+      'কখনও OTP, PIN বা পাসওয়ার্ড শেয়ার করবেন না।'
+    ],
+    portalBtn:'সরকারি সাইবার অপরাধ পোর্টাল ↗',
+    tipsTitle:'সাইবার নিরাপত্তার পরামর্শ',
+    tipsList:[
+      'ফোনে কথা বলার সময় কাউকে OTP, PIN বা পাসওয়ার্ড দেবেন না।',
+      'চাকরির বিজ্ঞাপন নিয়োগকারী প্রতিষ্ঠানের সরকারি ওয়েবসাইটে যাচাই করুন।',
+      'অচেনা ব্যক্তির পাঠানো APK ফাইল ইনস্টল করবেন না।',
+      'পুরস্কার পাওয়ার জন্য কাউকে টাকা পাঠাবেন না।',
+      'আলাদা শক্তিশালী পাসওয়ার্ড ব্যবহার করুন এবং two-factor authentication চালু রাখুন।'
+    ],
+    aboutTitle:'প্রকল্প সম্পর্কে',
+    aboutText:'এটি বিনামূল্যের নিয়মভিত্তিক সাইবার সচেতনতা প্রোটোটাইপ। এটি লাইভ হুমকি-তথ্যভান্ডারের সঙ্গে যুক্ত নয় এবং পেশাদার নিরাপত্তা স্ক্যানার নয়। ফলাফল ভুল হতে পারে। কম স্কোর মানেই মেসেজ বা লিঙ্ক নিরাপদ নয়।',
+    footerText:'ভারতের জন্য নিরাপদ ডিজিটাল অভ্যাস গড়ে তুলি 🇮🇳'
+  },
+  hi: {
+    heroTitle:'क्लिक करने से पहले <span>सोचें।</span>',
+    heroText:'संदिग्ध संदेशों की जाँच करें, धोखाधड़ी के संकेत समझें और ऑनलाइन सुरक्षित रहें।',
+    startBtn:'सुरक्षा जाँच शुरू करें ↓',
+    checksLabel:'इस सत्र में जाँचे गए संदेश',
+    flagsLabel:'चेतावनी संकेत वाले संदेश',
+    linksLabel:'इस सत्र में जाँचे गए लिंक',
+    analyzerTitle:'साइबर जोखिम विश्लेषण',
+    analyzerText:'संदिग्ध संदेश पेस्ट करें। यह टूल हिंदी, बंगाली और अंग्रेज़ी में सामान्य धोखाधड़ी संकेत खोजता है।',
+    messageLabel:'जाँचने के लिए संदेश',
+    placeholder:'संदिग्ध SMS, WhatsApp संदेश या नौकरी का विज्ञापन पेस्ट करें...',
+    analyzeBtn:'संदेश जाँचें', clearBtn:'मिटाएँ',
+    linkTitle:'लिंक संरचना जाँच',
+    linkText:'लिंक खोले बिना उसके URL की कुछ विशेषताएँ जाँचें।',
+    urlLabel:'वेबसाइट का पता', checkLinkBtn:'लिंक जाँचें',
+    helpTitle:'भारत में साइबर आपातकालीन सहायता',
+    helpText:'वित्तीय साइबर धोखाधड़ी का संदेह होने पर:',
+    helpList:[
+      'वित्तीय साइबर धोखाधड़ी के लिए तुरंत 1930 पर संपर्क करें।',
+      'आधिकारिक National Cyber Crime Reporting Portal पर शिकायत करें।',
+      'अपने बैंक के आधिकारिक ऐप या सत्यापित नंबर से संपर्क करें।',
+      'OTP, PIN या पासवर्ड कभी साझा न करें।'
+    ],
+    portalBtn:'आधिकारिक साइबर अपराध पोर्टल ↗',
+    tipsTitle:'साइबर सुरक्षा सुझाव',
+    tipsList:[
+      'किसी कॉल करने वाले को OTP, PIN या पासवर्ड न दें।',
+      'नौकरी के प्रस्ताव को नियोक्ता की आधिकारिक वेबसाइट पर जाँचें।',
+      'अजनबियों द्वारा भेजी गई APK फाइलें इंस्टॉल न करें।',
+      'इनाम पाने के लिए किसी को पैसे न भेजें।',
+      'अलग-अलग मजबूत पासवर्ड रखें और two-factor authentication चालू करें।'
+    ],
+    aboutTitle:'इस परियोजना के बारे में',
+    aboutText:'यह एक मुफ्त, नियम-आधारित साइबर जागरूकता प्रोटोटाइप है। यह लाइव खतरा डेटाबेस से जुड़ा नहीं है और पेशेवर सुरक्षा स्कैनर नहीं है। परिणाम गलत हो सकते हैं। कम स्कोर का अर्थ यह नहीं कि संदेश या लिंक सुरक्षित है।',
+    footerText:'भारत के लिए सुरक्षित डिजिटल आदतें 🇮🇳'
+  }
+};
 
-const rules = [
+let total=0, flagged=0, linksTotal=0;
+
+function setText(id,value) {
+  document.getElementById(id).textContent=value;
+}
+
+function setLanguage(lang) {
+  const t=translations[lang]||translations.en;
+  document.documentElement.lang=lang;
+  document.getElementById('heroTitle').innerHTML=t.heroTitle;
+  [
+    'heroText','startBtn','checksLabel','flagsLabel','linksLabel',
+    'analyzerTitle','analyzerText','messageLabel','analyzeBtn','clearBtn',
+    'linkTitle','linkText','urlLabel','checkLinkBtn','helpTitle','helpText',
+    'portalBtn','tipsTitle','aboutTitle','aboutText','footerText'
+  ].forEach(id=>setText(id,t[id]));
+
+  document.getElementById('message').placeholder=t.placeholder;
+  document.getElementById('helpList').innerHTML=t.helpList.map(x=>'<li>'+escapeHTML(x)+'</li>').join('');
+  document.getElementById('tipsList').innerHTML=t.tipsList.map(x=>'<li>'+escapeHTML(x)+'</li>').join('');
+}
+
+document.getElementById('language').addEventListener('change',e=>{
+  setLanguage(e.target.value);
+});
+
+function escapeHTML(s) {
+  return String(s).replace(/[&<>"']/g,c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  })[c]);
+}
+
+const patterns=[
   {
-    name: "Urgency or threats",
-    points: 2,
-    pattern: /\b(account.{0,25}(block|suspend|freeze)|urgent|immediately|within \d+ hours|final warning|will be blocked)\b/i
+    name:'OTP, PIN or password request',
+    points:40,
+    regex:/\b(otp|one.time password|pin|password|passcode)\b|ওটিপি|ও টি পি|পিন|পাসওয়ার্ড|পাসওয়ার্ড|গোপন নম্বর|ओटीपी|ओ टी पी|पिन|पासवर्ड|गुप्त कोड/i
   },
   {
-    name: "OTP, PIN or password request",
-    points: 4,
-    pattern: /\b(share|send|tell|provide|verify|enter).{0,35}\b(otp|pin|password|passcode)\b|\b(otp|pin|password).{0,35}\b(share|send|tell|provide)\b/i
+    name:'Urgency, threats or account suspension',
+    points:20,
+    regex:/\b(urgent|immediately|account.{0,25}(blocked|suspend|freeze)|final warning|within \d+ hours|act now|verify now)\b|এখনই|আজই|অ্যাকাউন্ট.{0,25}(বন্ধ|ব্লক)|ব্যাঙ্ক.{0,25}(বন্ধ|ব্লক)|জরুরি|তৎক্ষণাৎ|तुरंत|अभी|खाता.{0,25}(बंद|ब्लॉक)|बैंक.{0,25}(बंद|ब्लॉक)|तत्काल/i
   },
   {
-    name: "Suspicious payment request",
-    points: 3,
-    pattern: /\b(pay (a |the )?(fee|tax|deposit)|processing fee|registration fee|send money|transfer money|pay first)\b/i
+    name:'Suspicious payment or advance fee',
+    points:30,
+    regex:/\b(pay (a |the )?(fee|tax|deposit)|processing fee|registration fee|send money|transfer money|pay first|advance payment)\b|আগে টাকা|রেজিস্ট্রেশন ফি|প্রসেসিং ফি|টাকা পাঠান|জমা দিন|আগাম টাকা|पैसे भेजें|पहले पैसे|रजिस्ट्रेशन फीस|प्रोसेसिंग फीस|अग्रिम भुगतान|जमा करें/i
   },
   {
-    name: "Prize or guaranteed reward",
-    points: 2,
-    pattern: /\b(you have won|claim your prize|guaranteed income|free reward|lottery winner|cash prize)\b/i
+    name:'Prize, lottery or guaranteed reward',
+    points:20,
+    regex:/\b(you have won|claim your prize|guaranteed income|free reward|lottery winner|cash prize|congratulations winner)\b|পুরস্কার জিতেছেন|লটারি|বিনামূল্যে পুরস্কার|নিশ্চিত আয়|পুরস্কার পেতে|इनाम जीता|लॉटरी|मुफ्त इनाम|गारंटीड कमाई|पुरस्कार पाने/i
   },
   {
-    name: "Suspicious remote access request",
-    points: 4,
-    pattern: /\b(install|download).{0,40}\b(anydesk|teamviewer|remote access|screen sharing|unknown apk)\b/i
+    name:'Suspicious link or account verification',
+    points:20,
+    regex:/\b(click here|verify your account|update kyc|kyc expires|login immediately|click the link)\b|লিঙ্কে ক্লিক|লিংকে ক্লিক|কেওয়াইসি|কেওয়াইসি|অ্যাকাউন্ট যাচাই|এখানে ক্লিক|लिंक पर क्लिक|केवाईसी|खाता सत्यापित|यहाँ क्लिक/i
   },
   {
-    name: "Suspicious link or login request",
-    points: 2,
-    pattern: /\b(click here|verify your account|update kyc|kyc expires|login immediately)\b/i
+    name:'Remote access or unknown app request',
+    points:40,
+    regex:/\b(anydesk|teamviewer|remote access|screen sharing|unknown apk|install this app)\b|অজানা অ্যাপ|স্ক্রিন শেয়ার|স্ক্রিন শেয়ার|অ্যাপ ইনস্টল করুন|अनजान ऐप|स्क्रीन शेयर|ऐप इंस्टॉल करें/i
+  },
+  {
+    name:'Suspicious job offer',
+    points:20,
+    regex:/\b(job offer|work from home|earn \d+ daily|no experience required|instant hiring|job registration fee)\b|চাকরির জন্য টাকা|বাড়িতে বসে কাজ|বাড়িতে বসে কাজ|দৈনিক আয়|নিয়োগ ফি|নিয়োগ ফি|চাকরি নিশ্চিত|घर बैठे काम|रोज कमाएँ|रोज कमाएं|नौकरी के लिए पैसे|नौकरी पक्की/i
   }
 ];
 
-function analyzeMessage() {
-  const text = document.getElementById("message").value.trim();
-  const box = document.getElementById("analysisResult");
+function analyze() {
+  const message=document.getElementById('message').value.trim();
+  const box=document.getElementById('analysisResult');
+  box.classList.remove('hidden');
 
-  if (!text) {
-    box.classList.remove("hidden");
-    box.textContent = "Please paste a message first.";
+  if(!message) {
+    box.textContent='Please paste a message first.';
     return;
   }
 
-  const matches = rules.filter(rule => rule.pattern.test(text));
-  const points = matches.reduce((sum, rule) => sum + rule.points, 0);
-  const score = Math.min(points * 10, 100);
+  const matches=patterns.filter(p=>p.regex.test(message));
+  const raw=matches.reduce((sum,p)=>sum+p.points,0);
+  const score=Math.min(raw,100);
 
-  totalChecks++;
-  if (matches.length > 0) warningChecks++;
+  total++;
+  if(matches.length) flagged++;
 
-  document.getElementById("total").textContent = totalChecks;
-  document.getElementById("flagged").textContent = warningChecks;
+  setText('total',total);
+  setText('flagged',flagged);
 
-  let level = "No common warning pattern detected";
-  let color = "safe";
+  const level=score>=60?'High warning level':score>=30?'Medium warning level':'Few common warning signs detected';
+  const cls=score>=60?'red':score>=30?'yellow':'green';
 
-  if (score >= 60) {
-    level = "High warning level";
-    color = "warning";
-  } else if (score >= 20) {
-    level = "Medium warning level";
-    color = "warning";
-  }
+  const details=matches.length
+    ?'<ul>'+matches.map(p=>'<li><strong>'+escapeHTML(p.name)+'</strong><br><span class="muted small">Reason: the message contains a pattern associated with this warning.</span></li>').join('')+'</ul>'
+    :'<p>No patterns from the limited rule list were detected. This does not prove the message is safe.</p>';
 
-  let details = matches.length
-    ? "<ul>" + matches.map(m => "<li>" + m.name + "</li>").join("") + "</ul>"
-    : "<p>No patterns from this tool's limited rule list were detected.</p>";
+  const advice=matches.length
+    ?'Do not share OTPs, PINs, passwords or money. Verify the sender through an independently obtained official contact method.'
+    :'Stay cautious. Check the sender, the website address and any request for money or sensitive information independently.';
 
-  box.innerHTML =
-    '<div class="' + color + '"><strong>' + level + '</strong></div>' +
-    '<div class="score">' + score + '/100</div>' +
-    '<p>Rule-based warning score — not a probability that this message is a scam.</p>' +
-    '<strong>Detected indicators</strong>' + details +
-    '<p><strong>Recommended action:</strong> Do not share OTPs, PINs, passwords or money. Verify the sender independently using an official contact method.</p>' +
-    '<p class="small muted">This analysis runs in your browser. The message is not sent to a server by this page.</p>';
+  box.innerHTML=
+    '<span class="pill">CYBER RISK FINGERPRINT</span>'+
+    '<h3 class="'+cls+'">'+level+'</h3>'+
+    '<div class="score">'+score+'/100</div>'+
+    '<p class="muted">Rule-based warning score, not a probability of fraud.</p><hr>'+
+    '<h3>Detected indicators</h3>'+details+
+    '<h3>Recommended action</h3><p>'+advice+'</p>'+
+    '<p class="small muted">Local browser analysis. Message text is not uploaded by this page.</p>'+
+    '<button onclick="copyReport()">Copy Report</button>';
 
-  box.classList.remove("hidden");
+  window.lastReport=
+    'CYBER SHIELD INDIA — REPORT\n'+
+    'Warning score: '+score+'/100\n'+
+    'Detected indicators: '+(matches.map(p=>p.name).join(', ')||'None detected')+
+    '\nRecommended action: '+advice+
+    '\nThis is a rule-based result, not proof of fraud or safety.';
 }
 
-function clearMessage() {
-  document.getElementById("message").value = "";
-  const box = document.getElementById("analysisResult");
-  box.classList.add("hidden");
-  box.textContent = "";
+async function copyReport() {
+  if(!window.lastReport) return;
+  try {
+    await navigator.clipboard.writeText(window.lastReport);
+    alert('Report copied.');
+  } catch(e) {
+    alert('Copy is unavailable in this browser. Please select and copy the report manually.');
+  }
+}
+
+function clearAnalysis() {
+  document.getElementById('message').value='';
+  document.getElementById('analysisResult').classList.add('hidden');
+  window.lastReport='';
 }
 
 function checkLink() {
-  const raw = document.getElementById("linkInput").value.trim();
-  const box = document.getElementById("linkResult");
-  box.classList.remove("hidden");
+  const raw=document.getElementById('urlInput').value.trim();
+  const box=document.getElementById('linkResult');
+  box.classList.remove('hidden');
 
-  if (!raw) {
-    box.textContent = "Please enter a website address.";
+  if(!raw) {
+    box.textContent='Please enter a website address.';
     return;
   }
 
   let url;
   try {
-    url = new URL(raw);
-  } catch {
-    box.textContent = "Invalid URL format. Include a full address such as https://example.com";
+    url=new URL(raw);
+  } catch(e) {
+    box.textContent='Invalid URL format. Enter a full address such as https://example.com';
     return;
   }
 
-  if (!["http:", "https:"].includes(url.protocol)) {
-    box.textContent = "Only HTTP and HTTPS website addresses are supported.";
+  if(!['https:','http:'].includes(url.protocol)) {
+    box.textContent='Only HTTP and HTTPS links are supported.';
     return;
   }
 
-  const issues = [];
+  linksTotal++;
+  setText('linksTotal',linksTotal);
 
-  if (url.protocol !== "https:") {
-    issues.push("The address does not use HTTPS encryption.");
-  }
+  const issues=[];
+  if(url.protocol!=='https:') issues.push('The URL does not use HTTPS.');
+  if(url.username||url.password) issues.push('The URL contains embedded username or password information.');
+  if(url.hostname.includes('xn--')) issues.push('The hostname uses internationalized encoding; inspect it carefully.');
+  if(/^\d{1,3}(\.\d{1,3}){3}$/.test(url.hostname)) issues.push('The URL uses an IP address as its hostname.');
+  if(url.hostname.length>60) issues.push('The hostname is unusually long.');
+  if(url.hostname.split('.').length>5) issues.push('The hostname has an unusually large number of subdomain sections.');
 
-  if (url.username || url.password) {
-    issues.push("The address contains embedded username or password information.");
-  }
-
-  if (url.hostname.includes("xn--")) {
-    issues.push("The hostname uses internationalized encoding, which can sometimes disguise lookalike domains.");
-  }
-
-  if (/^\d{1,3}(\.\d{1,3}){3}$/.test(url.hostname)) {
-    issues.push("The address uses an IP address instead of a typical domain name.");
-  }
-
-  if (url.hostname.length > 60) {
-    issues.push("The hostname is unusually long.");
-  }
-
-  const label = issues.length
-    ? '<strong class="warning">Caution: structural warning(s) found</strong>'
-    : '<strong>Limited structural check completed</strong>';
-
-  box.innerHTML = label +
+  box.innerHTML=
+    '<h3 class="'+(issues.length?'yellow':'green')+'">'+
+    (issues.length?'Caution: structural warnings found':'Basic structure check completed')+
+    '</h3>'+
+    '<p><strong>Hostname:</strong> '+escapeHTML(url.hostname)+'</p>'+
     (issues.length
-      ? "<ul>" + issues.map(x => "<li>" + x + "</li>").join("") + "</ul>"
-      : "<p>No listed structural warning was detected. This does not establish that the site is safe.</p>") +
-    "<p><strong>Domain:</strong> " + escapeHTML(url.hostname) + "</p>" +
-    "<p class='small muted'>This check does not contact the website or query a live threat database. HTTPS alone does not prove trustworthiness.</p>";
+      ?'<ul>'+issues.map(i=>'<li>'+escapeHTML(i)+'</li>').join('')+'</ul>'
+      :'<p>No listed structural warnings detected.</p>')+
+    '<p class="muted small">This check does not visit the website or query a live threat database. HTTPS does not guarantee a site is trustworthy.</p>';
 }
 
-function escapeHTML(value) {
-  return value.replace(/[&<>"']/g, ch => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[ch]);
-}
+setLanguage('en');
 </script>
 </body>
-        </html>
+</html>
