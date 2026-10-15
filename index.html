@@ -513,96 +513,95 @@ function clearAnalysis() {
   window.lastReport='';
 }
 
-function checkLink() {
-  const raw=document.getElementById('urlInput').value.trim();
-  const box=document.getElementById('linkResult');
+async function checkLink() {
+  const raw = document.getElementById('urlInput').value.trim();
+  const box = document.getElementById('linkResult');
+
   box.classList.remove('hidden');
 
-  if(!raw) {
-    box.textContent='Please enter a website address.';
+  if (!raw) {
+    box.textContent = 'Please enter a website address.';
     return;
   }
 
   let url;
+
   try {
-    // Require a complete URL instead of silently guessing a protocol.
-    url=new URL(raw);
-  } catch(e) {
-    box.innerHTML='<h3 class="red">Invalid URL format</h3>'+
-      '<p>Enter a full address such as <strong>https://example.com</strong>.</p>';
+    url = new URL(raw);
+  } catch {
+    box.innerHTML =
+      '<h3 class="red">Invalid URL</h3>' +
+      '<p>Enter a complete URL, such as https://example.com</p>';
     return;
   }
 
-  if(!['https:','http:'].includes(url.protocol)) {
-    box.innerHTML='<h3 class="red">Unsupported link type</h3><p>Only HTTP and HTTPS links are checked.</p>';
+  if (!['http:', 'https:'].includes(url.protocol)) {
+    box.textContent = 'Only HTTP and HTTPS URLs are supported.';
     return;
   }
 
-  linksTotal++;
-  setText('linksTotal',linksTotal);
+  box.innerHTML = '<h3>🔍 Checking link...</h3>' +
+    '<p>Please wait while Google Safe Browsing checks the URL.</p>';
 
-  const host=url.hostname.toLowerCase();
-  const issues=[];
-  const notes=[];
-  let score=0;
+  const apiEndpoint =
+    'https://cyber-shield-api.bikashvrt999.workers.dev/';
 
-  if(url.protocol!=='https:') {
-    issues.push('Uses HTTP instead of encrypted HTTPS.');
-    score+=20;
-  }
-  if(url.username || url.password) {
-    issues.push('Contains username/password information before the hostname, which can be used to mislead readers.');
-    score+=30;
-  }
-  if(host.includes('xn--')) {
-    issues.push('Contains internationalized/punycode hostname encoding. Check carefully for look-alike characters.');
-    score+=20;
-  }
-  if(/^\d{1,3}(\.\d{1,3}){3}$/.test(host)) {
-    issues.push('Uses an IP address instead of a normal domain name.');
-    score+=25;
-  }
-  if(host.length>50) {
-    issues.push('Hostname is unusually long.');
-    score+=10;
-  }
-  const labels=host.split('.');
-  if(labels.length>4) {
-    issues.push('Has many subdomain sections. Check which domain is actually registered.');
-    score+=10;
-  }
-  if(host.startsWith('www-') || host.includes('--')) {
-    issues.push('Hostname uses hyphens in a pattern worth checking carefully.');
-    score+=5;
-  }
-  if(url.port && !['80','443'].includes(url.port)) {
-    issues.push('Uses a non-standard port number.');
-    score+=10;
-  }
-  if(url.href.length>200) {
-    notes.push('The full URL is very long. Long URLs can hide the destination or extra tracking parameters.');
-  }
-  if(/login|verify|secure|account|bank|wallet|kyc|update|gift|prize|claim/i.test(host)) {
-    notes.push('The hostname contains words often used in legitimate services too. This is only a prompt to verify the domain, not proof of fraud.');
-  }
-  if(!issues.length) {
-    notes.push('No listed structural warning was detected. This does NOT mean the website is safe.');
-  }
+  try {
+    const response = await fetch(apiEndpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        url: url.href
+      })
+    });
 
-  score=Math.min(score,100);
-  const level=score>=50?'High structural caution':score>=20?'Some structural warnings':'Few structural warnings detected';
-  const cls=score>=50?'red':score>=20?'yellow':'green';
+    const result = await response.json();
 
-  box.innerHTML=
-    '<span class="pill">LOCAL URL CHECK</span>'+
-    '<h3 class="'+cls+'">'+level+'</h3>'+
-    '<div class="score">'+score+'/100</div>'+
-    '<p class="muted small">This is a heuristic warning score, not a probability that the site is malicious.</p><hr>'+
-    '<p><strong>Hostname:</strong> '+escapeHTML(host)+'</p>'+
-    '<p><strong>Protocol:</strong> '+escapeHTML(url.protocol.replace(':','').toUpperCase())+'</p>'+
-    (issues.length?'<h3>Warnings</h3><ul>'+issues.map(x=>'<li>'+escapeHTML(x)+'</li>').join('')+'</ul>':'')+
-    (notes.length?'<h3>Notes</h3><ul>'+notes.map(x=>'<li>'+escapeHTML(x)+'</li>').join('')+'</ul>':'')+
-    '<p class="muted small">Privacy: this page does not open the destination, upload your URL, or query a live threat database. A scam can use HTTPS and a clean-looking URL. Do not enter passwords or payment details unless you independently trust the site.</p>';
+    if (!response.ok || !result.success) {
+      box.innerHTML =
+        '<h3 class="red">⚠️ Check Unavailable</h3>' +
+        '<p>' + escapeHTML(
+          result.details || result.message ||
+          'The security check could not be completed.'
+        ) + '</p>' +
+        '<p>Please try again later. Do not assume this link is safe.</p>';
+      return;
+    }
+
+    linksTotal++;
+    setText('linksTotal', linksTotal);
+
+    if (result.unsafe) {
+      box.innerHTML =
+        '<h3 class="red">🚨 Potentially Dangerous Link</h3>' +
+        '<p>Google Safe Browsing reported a potential threat.</p>' +
+        '<p><strong>URL:</strong> ' +
+        escapeHTML(result.checkedUrl) + '</p>' +
+        '<p><strong>Threat details:</strong></p><ul>' +
+        result.matches.map(match =>
+          '<li>' + escapeHTML(match.threatType || 'Threat detected') +
+          '</li>'
+        ).join('') +
+        '</ul>' +
+        '<p><strong>Do not open this link or enter personal information.</strong></p>';
+    } else {
+      box.innerHTML =
+        '<h3 class="green">✅ No Known Threat Found</h3>' +
+        '<p>' + escapeHTML(result.message) + '</p>' +
+        '<p><strong>URL:</strong> ' +
+        escapeHTML(result.checkedUrl) + '</p>' +
+        '<p class="muted small">This is not a guarantee of safety. New or unreported threats may not be detected.</p>';
+    }
+
+  } catch (error) {
+    box.innerHTML =
+      '<h3 class="red">⚠️ Connection Error</h3>' +
+      '<p>Could not connect to the security checking service.</p>' +
+      '<p>Check your internet connection and try again.</p>' +
+      '<p class="muted small">No conclusion about the URL safety could be made.</p>';
+  }
 }
 
 setLanguage('en');
